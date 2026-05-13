@@ -1,0 +1,32 @@
+[
+  {
+    "id": "food-delivery-api",
+    "title": "Food Delivery API",
+    "subtitle": "Scalable order pipeline handling concurrent kitchens, riders, and live tracking with Django + Celery.",
+    "challenge": "Designed for horizontal scaling: async task queues, Redis caching, and PostgreSQL read replicas to absorb peak-hour traffic.",
+    "image": "food-api",
+    "stack": ["Django", "DRF", "PostgreSQL", "Redis", "Celery", "Docker"],
+    "github": "https://github.com/jesustr/food-delivery-api",
+    "architecture": "https://github.com/jesustr/food-delivery-api#architecture"
+  },
+  {
+    "id": "ai-multi-agent-store",
+    "title": "AI Multi-Agent Store",
+    "subtitle": "Autonomous storefront where Autogen agents negotiate inventory, pricing, and customer support in real time.",
+    "challenge": "Orchestration of specialized LLM agents through a shared memory bus, with deterministic tool routing and guardrails.",
+    "image": "ai-store",
+    "stack": ["Python", "Autogen", "FastAPI", "OpenAI", "Vector DB", "Kafka"],
+    "github": "https://github.com/jesustr/ai-multi-agent-store",
+    "architecture": "https://github.com/jesustr/ai-multi-agent-store#architecture"
+  },
+  {
+    "id": "social-bookstore",
+    "title": "Social Bookstore Backend",
+    "subtitle": "Community-driven bookstore where readers share shelves, reviews, and trade copies through a clean domain model.",
+    "challenge": "Hexagonal architecture with strict ports & adapters — domain logic isolated from frameworks, fully unit-testable.",
+    "image": "bookstore",
+    "stack": ["Node.js", "TypeScript", "Hexagonal", "DDD", "PostgreSQL", "Jest"],
+    "github": "https://github.com/jesustr/social-bookstore",
+    "architecture": "https://github.com/jesustr/social-bookstore#architecture"
+  }
+]
