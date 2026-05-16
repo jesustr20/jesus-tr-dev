@@ -76,6 +76,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "Jesus TR" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "Jesus TR — Backend & DevOps Engineer" },
+      { name: "twitter:title", content: "Jesus TR — Backend & DevOps Engineer" },
+      { name: "description", content: "Obsidian Stack is a minimalist technical portfolio showcasing backend and DevOps expertise." },
+      { property: "og:description", content: "Obsidian Stack is a minimalist technical portfolio showcasing backend and DevOps expertise." },
+      { name: "twitter:description", content: "Obsidian Stack is a minimalist technical portfolio showcasing backend and DevOps expertise." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e46e6ad5-c117-44fb-916a-ba0253efd5ae/id-preview-0655631a--62552f73-d49f-4b73-a184-29a4c61bdeae.lovable.app-1778660417610.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e46e6ad5-c117-44fb-916a-ba0253efd5ae/id-preview-0655631a--62552f73-d49f-4b73-a184-29a4c61bdeae.lovable.app-1778660417610.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
