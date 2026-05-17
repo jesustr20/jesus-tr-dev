@@ -6,7 +6,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
       {/* 16:9 image header */}
       <div className="relative aspect-video overflow-hidden bg-secondary">
         <img
-          src={project.imageUrl}
+          src={project.image} // Cambiado a project.image que viene mapeado desde Sanity
           alt={`${project.title} architecture diagram`}
           loading="lazy"
           width={1280}
@@ -34,7 +34,7 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
         </p>
 
         <div className="flex flex-wrap gap-1.5">
-          {project.stack.map((s) => (
+          {project.stack?.map((s) => (
             <span
               key={s}
               className="rounded-md border border-border bg-secondary/70 px-2 py-0.5 font-mono text-[11px] text-muted-foreground transition-colors group-hover:border-primary/30 group-hover:text-foreground"
@@ -53,14 +53,18 @@ export function ProjectCard({ project, index }: { project: Project; index: numbe
           >
             <span>{"</>"}</span> GitHub
           </a>
-          <a
-            href={project.architecture}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="inline-flex items-center gap-1.5 rounded-md border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs text-primary transition-all hover:bg-primary/20"
-          >
-            <span>◇</span> Architecture View
-          </a>
+          
+          {/* Si dejas el liveUrl vacío en el panel de Sanity, este botón se oculta limpiamente */}
+          {project.architecture && (
+            <a
+              href={project.architecture}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="inline-flex items-center gap-1.5 rounded-md border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs text-primary transition-all hover:bg-primary/20"
+            >
+              <span>◇</span> Architecture View
+            </a>
+          )}
         </div>
       </div>
     </article>

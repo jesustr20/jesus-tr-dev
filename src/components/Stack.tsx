@@ -1,51 +1,103 @@
-const GROUPS = [
-  {
-    label: "backend",
-    items: ["Python", "Django", "FastAPI", "Node.js", "TypeScript", "Go"],
-  },
-  {
-    label: "devops",
-    items: ["Docker", "Kubernetes", "Terraform", "GitHub Actions", "AWS", "Linux"],
-  },
-  {
-    label: "data",
-    items: ["PostgreSQL", "Redis", "Kafka", "MongoDB", "Celery", "Vector DB"],
-  },
-  {
-    label: "patterns",
-    items: ["Hexagonal", "DDD", "Event-driven", "TDD", "Clean Architecture", "REST/gRPC"],
-  },
+import { useEffect, useState } from "react";
+import { client } from "@/lib/sanity";
+import { Badge } from "@/components/ui/badge";
+
+const stackCategories = [
+  { key: "backend" as const, label: "Backend", icon: ">" },
+  { key: "databases" as const, label: "Databases", icon: "db" },
+  { key: "devops" as const, label: "DevOps", icon: "#" },
+  { key: "ai" as const, label: "AI/ML", icon: "λ" },
 ];
 
-export function Stack() {
-  return (
-    <section id="stack" className="border-y border-border bg-card/30">
-      <div className="mx-auto max-w-6xl px-6 py-24">
-        <header className="mb-12">
-          <span className="font-mono text-xs text-primary">// 03 — toolkit</span>
-          <h2 className="mt-2 font-mono text-3xl font-bold sm:text-4xl">
-            <span className="text-muted-foreground">$ cat </span>
-            stack.yaml
-          </h2>
-        </header>
+interface StackMap {
+  backend: string[];
+  databases: string[];
+  devops: string[];
+  ai: string[];
+}
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {GROUPS.map((g) => (
+export function Stack() {
+  const [stackData, setStackData] = useState<StackMap | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const query = `*[_type == "stack"]{category, technologies}`;
+
+    client
+      .fetch(query)
+      .then((data) => {
+        // Inicializamos el objeto vacío mapeando las categorías
+        const initialMap: StackMap = { backend: [], databases: [], devops: [], ai: [] };
+        
+        const formatted = data.reduce((acc: StackMap, item: any) => {
+          if (item.category && item.technologies) {
+            acc[item.category as keyof StackMap] = item.technologies;
+          }
+          return acc;
+        }, initialMap);
+
+        setStackData(formatted);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error al obtener el stack de Sanity:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="text-center py-24 font-mono text-xs text-muted-foreground">
+        $ cat ./loading_stack.sh...
+      </div>
+    );
+  }
+
+  return (
+    <section id="stack" className="py-24 bg-black/50 border-y border-white/5">
+      <div className="max-w-6xl mx-auto px-6">
+        
+        {/* Encabezado estilo Terminal */}
+        <div className="space-y-4 mb-16">
+          <div className="text-sm font-mono flex items-center gap-2">
+            <span className="text-[#00f5d4]">$</span> 
+            <span className="text-zinc-500">cat ./tech-stack.md</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
+            Tech Stack
+          </h2>
+          <p className="text-zinc-400 max-w-xl text-lg leading-relaxed">
+            The tools and technologies I use to build robust, scalable systems.
+          </p>
+        </div>
+
+        {/* Grid de Categorías */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {stackCategories.map((category) => (
             <div
-              key={g.label}
-              className="glass rounded-xl p-5 transition-all hover:border-primary/30"
+              key={category.key}
+              className="glass rounded-2xl p-8 shadow-card"
             >
-              <div className="mb-4 flex items-center justify-between font-mono text-xs">
-                <span className="text-primary">{g.label}:</span>
-                <span className="text-muted-foreground">{g.items.length}</span>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="text-primary font-mono text-lg">
+                  {category.icon}
+                </span>
+                <h3 className="text-lg font-semibold text-zinc-100">
+                  {category.label}
+                </h3>
               </div>
-              <ul className="space-y-1.5 font-mono text-sm">
-                {g.items.map((it) => (
-                  <li key={it} className="flex items-center gap-2 text-foreground/90">
-                    <span className="text-primary/60">-</span> {it}
-                  </li>
+              
+              <div className="flex flex-wrap gap-3">
+                {stackData && stackData[category.key]?.map((tech) => (
+                  <Badge
+                    key={tech}
+                    variant="secondary"
+                    className="bg-secondary/80 hover:bg-primary/20 hover:text-primary transition-colors cursor-default"
+                  >
+                    {tech}
+                  </Badge>
                 ))}
-              </ul>
+              </div>
             </div>
           ))}
         </div>

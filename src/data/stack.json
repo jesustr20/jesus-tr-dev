@@ -1,0 +1,8 @@
+{
+    "stack": {
+    "backend": ["Python", "Django", "FastAPI", "Node.js", "TypeScript"],
+    "databases": ["PostgreSQL", "MongoDB", "Redis", "Elasticsearch"],
+    "devops": ["Docker", "Kubernetes", "AWS", "CI/CD", "Terraform"],
+    "ai": ["LangChain", "Autogen", "OpenAI", "Vector DBs"]
+  }
+}

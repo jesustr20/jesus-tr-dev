@@ -1,13 +1,37 @@
 import { useEffect, useState } from "react";
-import { getProjects, type Project } from "@/lib/projects";
+import {client} from "@/lib/sanity";
+import type { Project } from "@/lib/projects";
 import { ProjectCard } from "./ProjectCard";
 
 export function Projects() {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading ] = useState(true);
 
   useEffect(() => {
-    getProjects().then(setProjects);
+    //GROQ Query con aliases para que coincida exactamten con tu interfaz original
+    const query = `*[_type == "project"]{
+    "id": _id,
+    title,
+    "subtitle": description,
+    challenge,
+    "image": imageUrl,
+    "stack": tags,
+    "github": githubUrl,
+    "architecture": liveUrl
+    }`
+
+    client
+      .fetch(query)
+      .then((data) =>{
+        setProjects(data);
+        setLoading(false);
+      })
+      .catch((err) =>{
+        console.error("Error al obtener proyectos de Sanity:", err);
+        setLoading(false);
+      })
   }, []);
+  
 
   return (
     <section id="projects" className="mx-auto max-w-6xl px-6 py-24">
