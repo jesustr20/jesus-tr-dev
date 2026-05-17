@@ -16,6 +16,12 @@ interface StackMap {
   ai: string[];
 }
 
+// Interfaz para definir de forma explícita qué nos devuelve la consulta a Sanity
+interface SanityStackItem {
+  category: string;
+  technologies: string[];
+}
+
 export function Stack() {
   const [stackData, setStackData] = useState<StackMap | null>(null);
   const [loading, setLoading] = useState(true);
@@ -24,12 +30,13 @@ export function Stack() {
     const query = `*[_type == "stack"]{category, technologies}`;
 
     client
-      .fetch(query)
+      .fetch<SanityStackItem[]>(query) // Declaramos el tipo esperado de la consulta aquí
       .then((data) => {
         // Inicializamos el objeto vacío mapeando las categorías
         const initialMap: StackMap = { backend: [], databases: [], devops: [], ai: [] };
         
-        const formatted = data.reduce((acc: StackMap, item: any) => {
+        // Tipamos el item del reduce de manera correcta para evitar el error de 'never'
+        const formatted = data.reduce((acc: StackMap, item: SanityStackItem) => {
           if (item.category && item.technologies) {
             acc[item.category as keyof StackMap] = item.technologies;
           }
