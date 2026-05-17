@@ -8,7 +8,8 @@ export interface Project {
   challenge: string;
   image: string;      // Mantenemos la propiedad por compatibilidad
   imageUrl: string;   // Aquí llegará la URL pública de Supabase desde Sanity
-  stack: string[];
+  stack: string[];    // Mantenemos stack por compatibilidad
+  technologies: string[]; // ¡AGREGADO! Evita el error de TypeScript en el componente
   github: string;
   architecture: string;
 }
@@ -24,6 +25,7 @@ export async function getProjects(): Promise<Project[]> {
     "image": imageUrl, // Asignamos la URL a ambas propiedades para evitar cualquier error de renderizado
     imageUrl,
     "stack": tags,
+    "technologies": tags, // ¡AGREGADO! Mapea las tecnologías para solucionar el build de Vercel
     "github": githubUrl,
     "architecture": liveUrl
   }`;
